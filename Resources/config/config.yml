@@ -1,0 +1,47 @@
+
+# Bundle Parameter
+parameters:
+    tecdoc_database_driver: pdo_mysql
+    tecdoc_database_host: localhost
+    tecdoc_database_port: 3306
+    tecdoc_database_name: tecdoc
+    tecdoc_database_user: tecdoc
+    tecdoc_database_password: secret
+    tecdoc_download_reference: var/tecdoc/download/R_TAF24
+    tecdoc_download_supplier: var/tecdoc/download/D_TAF24
+    tecdoc_download_media: var/tecdoc/download/PIC_FILES
+    tecdoc_default_locale: en
+
+# Bundle Configuration
+gweb_tecdoc:
+    dir:
+        download:
+            reference: '%tecdoc_download_reference%'
+            supplier: '%tecdoc_download_supplier%'
+            media: '%tecdoc_download_media%'
+        data:
+            reference: '%kernel.project_dir%/var/tecdoc/data/reference'
+            supplier: '%kernel.project_dir%/var/tecdoc/data/supplier'
+            media: '%kernel.project_dir%/var/tecdoc/data/media'
+    translator:
+        autoload: true
+        default_locale: '%tecdoc_default_locale%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        connections:
+             tecdoc:
+                driver:   '%tecdoc_database_driver%'
+                host:     '%tecdoc_database_host%'
+                port:     '%tecdoc_database_port%'
+                dbname:   '%tecdoc_database_name%'
+                user:     '%tecdoc_database_user%'
+                password: '%tecdoc_database_password%'
+                charset:  UTF8
+    orm:
+        entity_managers:
+            tecdoc:
+                connection: tecdoc
+                mappings:
+                    GwebTecdocBundle: ~

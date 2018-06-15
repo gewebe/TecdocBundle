@@ -1,0 +1,29 @@
+{
+  "name": "gweb/tecdoc-bundle",
+  "type": "symfony-bundle",
+  "description": "This bundle integrates the TecDoc vehicle and spare parts database into Symfony.",
+  "license": "MIT",
+  "version": "0.8.0",
+  "authors" : [{
+    "name" : "Gerd Weitenberg",
+    "email" : "gweitenb@gmail.com"
+  }],
+  "autoload": {
+    "psr-4": {
+      "Gweb\\TecdocBundle\\": ""
+    }
+  },
+  "require": {
+    "php": "^7.1",
+    "doctrine/doctrine-bundle": "^1.6",
+    "symfony/framework-bundle": "^3.0",
+    "jms/serializer-bundle": "^2.4"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "~3.3"
+  },
+  "suggest": {
+    "p7zip": "Required to extract 7z compressed files",
+    "friendsofsymfony/rest-bundle": "Required to use REST-API"
+  }
+}

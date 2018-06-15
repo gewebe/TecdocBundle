@@ -1,0 +1,23 @@
+
+services:
+
+    gweb_tecdoc.entity_manager:
+        public: true
+        class: Gweb\TecdocBundle\Service\EntityManager
+        arguments: ['@doctrine.orm.tecdoc_entity_manager']
+
+    gweb_tecdoc.import_manager:
+        public: true
+        class: Gweb\TecdocBundle\Service\ImportManager
+        arguments: ['@gweb_tecdoc.entity_manager', '%gweb_tecdoc.dir_data_reference%', '%gweb_tecdoc.dir_data_supplier%']
+
+    gweb_tecdoc.translate_manager:
+        public: true
+        class: Gweb\TecdocBundle\Service\TranslateManager
+        arguments: ["@gweb_tecdoc.entity_manager", "@request_stack", "%gweb_tecdoc.translator_default_locale%"]
+
+    gweb_tecdoc.translate_listener:
+        class: Gweb\TecdocBundle\EventListener\TranslateListener
+        arguments: ["@gweb_tecdoc.translate_manager", "%gweb_tecdoc.translator_autoload%"]
+        tags:
+            - { name: doctrine.orm.entity_listener, entity_manager: tecdoc }
