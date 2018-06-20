@@ -1,9 +1,9 @@
 
-# GwebTecdocBundle
+# TecdocBundle for Symfony
 
 This bundle integrates the TecDoc vehicle and spare parts database into Symfony.
 
-##Features
+## Features
 
  * Import fixed width files to database
  * Entity model for fixed width files and orm*
