@@ -22,10 +22,10 @@ class ExtractCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('tecdoc:extract')
-          ->setDescription('Extract tecdoc 7z compressed files')
-          ->addOption('reference', null, InputOption::VALUE_REQUIRED, 'Extract reference file, i.e: version 0118', false)
-          ->addOption('supplier', null, InputOption::VALUE_OPTIONAL, 'Extract data supplier files', false)
-          ->addOption('media', null, InputOption::VALUE_OPTIONAL, 'Extract data supplier media files', false);
+            ->setDescription('Extract tecdoc 7z compressed files')
+            ->addOption('reference', null, InputOption::VALUE_REQUIRED, 'Extract reference file, i.e: version 0118', false)
+            ->addOption('supplier', null, InputOption::VALUE_OPTIONAL, 'Extract data supplier files', false)
+            ->addOption('media', null, InputOption::VALUE_OPTIONAL, 'Extract data supplier media files', false);
     }
 
     /**
@@ -40,23 +40,23 @@ class ExtractCommand extends ContainerAwareCommand
 
         if ($input->getOption('reference') !== false) {
             FileExtract::reference(
-              $container->getParameter('gweb_tecdoc.dir_download_reference'),
-              $container->getParameter('gweb_tecdoc.dir_data_reference'),
-              $input->getOption('reference')
+                $container->getParameter('gweb_tecdoc.dir_download_reference'),
+                $container->getParameter('gweb_tecdoc.dir_data_reference'),
+                $input->getOption('reference')
             );
         }
 
         if ($input->getOption('supplier') !== false) {
             FileExtract::suppliers(
-              $container->getParameter('gweb_tecdoc.dir_download_supplier'),
-              $container->getParameter('gweb_tecdoc.dir_data_supplier')
+                $container->getParameter('gweb_tecdoc.dir_download_supplier'),
+                $container->getParameter('gweb_tecdoc.dir_data_supplier')
             );
         }
 
         if ($input->getOption('media') !== false) {
             FileExtract::media(
-              $container->getParameter('gweb_tecdoc.dir_download_media'),
-              $container->getParameter('gweb_tecdoc.dir_data_media')
+                $container->getParameter('gweb_tecdoc.dir_download_media'),
+                $container->getParameter('gweb_tecdoc.dir_data_media')
             );
         }
     }

@@ -22,11 +22,11 @@ class SearchTreeRepository extends EntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
 
         $qb->select(['searchtree'])
-          ->from(Tecdoc301SearchTree::class, 'searchtree')
-          ->where('searchtree.treetypenr = :treetypenr')
-          ->andWhere('searchtree.nodeparentId IS NULL')
-          ->orderBy('searchtree.sortnr')
-          ->setParameter(':treetypenr', $treetypenr);
+            ->from(Tecdoc301SearchTree::class, 'searchtree')
+            ->where('searchtree.treetypenr = :treetypenr')
+            ->andWhere('searchtree.nodeparentId IS NULL')
+            ->orderBy('searchtree.sortnr')
+            ->setParameter(':treetypenr', $treetypenr);
 
         return $qb->getQuery()->getResult();
     }

@@ -21,7 +21,7 @@ class FileExtractTest extends TestCase
             $filesystem->remove('/tmp/supplier');
         }
 
-        FileExtract::suppliers(__DIR__ . '/../Fixtures/download/supplier', '/tmp/supplier');
+        FileExtract::suppliers(__DIR__.'/../Fixtures/download/supplier', '/tmp/supplier');
 
         self::assertFileIsReadable('/tmp/supplier/2562/001.2562');
     }

@@ -52,8 +52,8 @@ class FileFixedWidth
     public function addColumn(string $name, int $start, int $length): void
     {
         $this->columns[$name] = [
-          'start' => $start,
-          'length' => $length,
+            'start' => $start,
+            'length' => $length,
         ];
     }
 

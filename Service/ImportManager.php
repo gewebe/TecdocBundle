@@ -59,9 +59,9 @@ class ImportManager
         foreach ($files as $fileName) {
             try {
                 $result[$fileName] = $this->importFile(
-                  $fileName,
-                  $this->entityManager->getClassMetadata($entityClass)->getTableName(),
-                  $fileAnnotation->getColumns()
+                    $fileName,
+                    $this->entityManager->getClassMetadata($entityClass)->getTableName(),
+                    $fileAnnotation->getColumns()
                 );
             } catch (FileNotFoundException $e) {
                 $result[$fileName] = null;

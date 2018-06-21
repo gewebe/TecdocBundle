@@ -24,9 +24,9 @@ class ImportCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('tecdoc:import')
-          ->setDescription('Import tecdoc fixed width files to database')
-          ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Import singe entity by full name')
-          ->addOption('threads', null, InputOption::VALUE_REQUIRED, 'Import process max threads', 1);
+            ->setDescription('Import tecdoc fixed width files to database')
+            ->addOption('entity', null, InputOption::VALUE_REQUIRED, 'Import singe entity by full name')
+            ->addOption('threads', null, InputOption::VALUE_REQUIRED, 'Import process max threads', 1);
     }
 
     /**
@@ -65,7 +65,7 @@ class ImportCommand extends ContainerAwareCommand
         $processQueue = [];
         foreach ($this->importManager->getEntities() as $entity) {
             $processQueue[] = new Process(
-              'bin/console tecdoc:import --entity="'.$entity.'"', null, null, null, null
+                'bin/console tecdoc:import --entity="'.$entity.'"', null, null, null, null
             );
         }
 

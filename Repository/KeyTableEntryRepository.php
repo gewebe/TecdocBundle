@@ -19,7 +19,7 @@ class KeyTableEntryRepository extends EntityRepository
      * @return Tecdoc052KeyTableEntry|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findKeyEntry(int $tabnr, string $key):? Tecdoc052KeyTableEntry
+    public function findKeyEntry(int $tabnr, string $key): ?Tecdoc052KeyTableEntry
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
@@ -36,7 +36,7 @@ class KeyTableEntryRepository extends EntityRepository
         // cache query
         return $qb->getQuery()
             ->useQueryCache(true)
-            ->useResultCache(true, 3600, Tecdoc052KeyTableEntry::class . $tabnr . $key)
+            ->useResultCache(true, 3600, Tecdoc052KeyTableEntry::class.$tabnr.$key)
             ->getOneOrNullResult();
     }
 }

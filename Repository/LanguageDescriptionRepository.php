@@ -19,21 +19,21 @@ class LanguageDescriptionRepository extends EntityRepository
      * @return Tecdoc030LanguageDescription|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findDescription(int $beznr, int $sprachnr):? Tecdoc030LanguageDescription
+    public function findDescription(int $beznr, int $sprachnr): ?Tecdoc030LanguageDescription
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
         $qb->select(['description'])
-          ->from(Tecdoc030LanguageDescription::class, 'description')
-          ->where("description.beznr = :beznr")
-          ->andWhere("description.sprachnr = :sprachnr")
-          ->setParameter(':beznr', $beznr)
-          ->setParameter(':sprachnr', $sprachnr);
+            ->from(Tecdoc030LanguageDescription::class, 'description')
+            ->where("description.beznr = :beznr")
+            ->andWhere("description.sprachnr = :sprachnr")
+            ->setParameter(':beznr', $beznr)
+            ->setParameter(':sprachnr', $sprachnr);
 
         // cache query
         return $qb->getQuery()
-          ->useQueryCache(true)
-          ->useResultCache(true, 3600, Tecdoc030LanguageDescription::class . $beznr . $sprachnr)
-          ->getOneOrNullResult();
+            ->useQueryCache(true)
+            ->useResultCache(true, 3600, Tecdoc030LanguageDescription::class.$beznr.$sprachnr)
+            ->getOneOrNullResult();
     }
 }

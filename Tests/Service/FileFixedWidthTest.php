@@ -16,7 +16,7 @@ class FileFixedWidthTest extends TestCase
 
     public function testFile()
     {
-        $file = new FileFixedWidth(__DIR__ . '/../Fixtures/supplier/2562/001.2562');
+        $file = new FileFixedWidth(__DIR__.'/../Fixtures/supplier/2562/001.2562');
 
         $file->addColumn('dlnr', 0, 4);
 
@@ -34,7 +34,7 @@ class FileFixedWidthTest extends TestCase
     {
         self::expectException(FileNotFoundException::class);
 
-        new FileFixedWidth(__DIR__ . '/../Fixtures/supplier/2562/001.1112');
+        new FileFixedWidth(__DIR__.'/../Fixtures/supplier/2562/001.1112');
     }
 
 }

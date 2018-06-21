@@ -18,19 +18,19 @@ class LanguageRepository extends EntityRepository
      * @return Tecdoc020Language|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findOneByIsocode(string $isocode):? Tecdoc020Language
+    public function findOneByIsocode(string $isocode): ?Tecdoc020Language
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
         $qb->select(['language'])
-          ->from(Tecdoc020Language::class, 'language')
-          ->where("language.isocode = :isocode")
-          ->setParameter(':isocode', $isocode);
+            ->from(Tecdoc020Language::class, 'language')
+            ->where("language.isocode = :isocode")
+            ->setParameter(':isocode', $isocode);
 
         // cache query
         return $qb->getQuery()
-          ->useQueryCache(true)
-          ->useResultCache(true, 3600, Tecdoc020Language::class . $isocode)
-          ->getOneOrNullResult();
+            ->useQueryCache(true)
+            ->useResultCache(true, 3600, Tecdoc020Language::class.$isocode)
+            ->getOneOrNullResult();
     }
 }

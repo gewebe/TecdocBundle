@@ -77,7 +77,7 @@ class TranslateManager
     public function setLanguageIdByIsocode(string $isocode): void
     {
         $language = $this->entityManager->getRepository(Tecdoc020Language::class)->findOneByIsocode(
-          $isocode
+            $isocode
         );
 
         if (!$language) {
@@ -134,11 +134,11 @@ class TranslateManager
         $repo = $this->entityManager->getRepository(Tecdoc035TextModule::class);
 
         $textmodule = $repo->findOneBy(
-          [
+            [
             'dlnr' => $dlnr,
             'tbsnr' => $tbsnr,
             'sprachnr' => $this->getLanguageId(),
-          ]
+            ]
         );
 
         if ($textmodule) {
@@ -158,11 +158,11 @@ class TranslateManager
         $repo = $this->entityManager->getRepository(Tecdoc231Image::class);
 
         return $repo->findOneBy(
-          [
+            [
             'bildnr' => $bildnr,
             'dokumentenart' => $dokumentenart,
             'sprachnr' => [$this->getLanguageId(), 255],
-          ]
+            ]
         );
     }
 }

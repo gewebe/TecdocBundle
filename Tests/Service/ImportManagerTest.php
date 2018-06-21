@@ -22,20 +22,20 @@ class ImportManagerTest extends TestCase
 
         // mock table annotation
         $table = new Table(
-          [
+            [
             'name' => '001',
             'reference' => true,
             'provider' => true,
-          ]
+            ]
         );
 
         $import = new ImportManager($objectManager,
-          __DIR__.'/../Fixtures/reference',
-          __DIR__.'/../Fixtures/supplier');
+            __DIR__.'/../Fixtures/reference',
+            __DIR__.'/../Fixtures/supplier');
 
         $files = $import->getEntityFiles($table);
 
-        self::assertArraySubset([0 => __DIR__ . '/../Fixtures/supplier/2562/001.2562'], $files);
+        self::assertArraySubset([0 => __DIR__.'/../Fixtures/supplier/2562/001.2562'], $files);
     }
 
 }

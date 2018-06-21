@@ -32,10 +32,10 @@ class ArticleController extends FOSRestController
     public function articleAction(int $dlnr, string $artnr)
     {
         return $this->getEntityManager()->getRepository(Tecdoc200Article::class)->findOneBy(
-          [
+            [
             'dlnr' => $dlnr,
             'artnr' => $artnr,
-          ]
+            ]
         );
     }
 
@@ -45,10 +45,10 @@ class ArticleController extends FOSRestController
     public function articleGenericAction(int $dlnr, string $artnr)
     {
         return $this->getEntityManager()->getRepository(Tecdoc211ArticleGenericArticle::class)->findBy(
-          [
+            [
             'dlnr' => $dlnr,
             'artnr' => $artnr,
-          ]
+            ]
         );
     }
 
@@ -58,10 +58,10 @@ class ArticleController extends FOSRestController
     public function articleCriteriaAction(int $dlnr, string $artnr)
     {
         return $this->getEntityManager()->getRepository(Tecdoc210ArticleCriteria::class)->findBy(
-          [
+            [
             'dlnr' => $dlnr,
             'artnr' => $artnr,
-          ]
+            ]
         );
     }
 
@@ -71,10 +71,10 @@ class ArticleController extends FOSRestController
     public function articleImageAction(int $dlnr, string $artnr)
     {
         return $this->getEntityManager()->getRepository(Tecdoc232ArticleImage::class)->findBy(
-          [
+            [
             'dlnr' => $dlnr,
             'artnr' => $artnr,
-          ]
+            ]
         );
     }
 
