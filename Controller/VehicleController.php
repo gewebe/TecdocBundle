@@ -2,13 +2,13 @@
 
 namespace Gweb\TecdocBundle\Controller;
 
-use FOS\RestBundle\Controller\Annotations\View;
+use Doctrine\Common\Persistence\ObjectRepository;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Gweb\TecdocBundle\Entity\Tecdoc100Manufacturer;
 use Gweb\TecdocBundle\Entity\Tecdoc120VehicleType;
 use Gweb\TecdocBundle\Entity\Tecdoc121VehicleTypeKba;
-use Gweb\TecdocBundle\Service\EntityManager;
 
 /**
  * Tecdoc Vehicle API
@@ -19,55 +19,71 @@ class VehicleController extends FOSRestController
 {
     /**
      * @Rest\Get("/vehicle/manufacturer/{lang}")
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      */
-    public function vehicleManufacturerAction()
+    public function vehicleManufacturerAction(): View
     {
-        return $this->getEntityManager()->getRepository(Tecdoc100Manufacturer::class)->findAll();
+        $repository = $this->getRepository(Tecdoc100Manufacturer::class);
+        $vehicleManufacturers = $repository->findAll();
+
+        return $this->view($vehicleManufacturers);
     }
 
     /**
      * @Rest\Get("/vehicle/car/manufacturer/{lang}")
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      */
-    public function vehicleCarManufacturerAction()
+    public function vehicleCarManufacturerAction(): View
     {
-        return $this->getEntityManager()->getRepository(Tecdoc100Manufacturer::class)->findByPkw(true);
+        $repository = $this->getRepository(Tecdoc100Manufacturer::class);
+        $vehicleManufacturers = $repository->findByPkw(true);
+
+        return $this->view($vehicleManufacturers);
     }
 
     /**
      * @Rest\Get("/vehicle/cv/manufacturer/{lang}")
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      */
-    public function vehicleCvManufacturerAction()
+    public function vehicleCvManufacturerAction(): View
     {
-        return $this->getEntityManager()->getRepository(Tecdoc100Manufacturer::class)->findByNkw(true);
+        $repository = $this->getRepository(Tecdoc100Manufacturer::class);
+        $vehicleManufacturers = $repository->findByNkw(true);
+
+        return $this->view($vehicleManufacturers);
     }
 
     /**
      * @Rest\Get("/vehicle/car/{lang}/{ktypnr}")
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      */
-    public function vehicleCarTypeAction(int $ktypnr)
+    public function vehicleCarTypeAction(int $ktypnr): View
     {
-        return $this->getEntityManager()->getRepository(Tecdoc120VehicleType::class)->find($ktypnr);
+        $repository = $this->getRepository(Tecdoc120VehicleType::class);
+        $vehicle = $repository->find($ktypnr);
+
+        return $this->view($vehicle);
     }
 
     /**
      * @Rest\Get("/vehicle/car/kba/{lang}/{kba}")
-     * @View(serializerEnableMaxDepthChecks=true)
+     * @Rest\View(serializerEnableMaxDepthChecks=true)
      */
-    public function vehicleCarTypeByKbaAction(string $kba)
+    public function vehicleCarTypeByKbaAction(string $kba): View
     {
-        return $this->getEntityManager()->getRepository(Tecdoc121VehicleTypeKba::class)->findByKbanr($kba);
+        $repository = $this->getRepository(Tecdoc121VehicleTypeKba::class);
+        $vehicle = $repository->findByKbanr($kba);
+
+        return $this->view($vehicle);
     }
 
     /**
      * get tecdoc entity manager
-     * @return EntityManager
+     * @param string $className
+     * @return ObjectRepository
      */
-    private function getEntityManager(): EntityManager
+    private function getRepository(string $className): ObjectRepository
     {
-        return $this->container->get('gweb_tecdoc.entity_manager');
+        return $this->get('gweb_tecdoc.entity_manager')->getRepository($className);
     }
 }

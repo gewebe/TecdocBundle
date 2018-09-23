@@ -4,6 +4,7 @@ namespace Gweb\TecdocBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Gweb\TecdocBundle\Entity\Tecdoc001DataSupplier;
 
 /**
@@ -16,10 +17,12 @@ class DatasupplierController extends FOSRestController
     /**
      * @Rest\Get("/datasupplier")
      */
-    public function datasupplierAction()
+    public function datasupplierAction(): View
     {
-        $em = $this->getDoctrine()->getManager('tecdoc');
+        $entityManager = $this->get('gweb_tecdoc.entity_manager');
 
-        return $em->getRepository(Tecdoc001DataSupplier::class)->findAll();
+        $dataSupplier = $entityManager->getRepository(Tecdoc001DataSupplier::class)->findAll();
+
+        return $this->view($dataSupplier);
     }
 }

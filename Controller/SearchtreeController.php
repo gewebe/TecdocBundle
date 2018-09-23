@@ -4,6 +4,7 @@ namespace Gweb\TecdocBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
 use Gweb\TecdocBundle\Entity\Tecdoc301SearchTree;
 
 /**
@@ -17,21 +18,25 @@ class SearchtreeController extends FOSRestController
      * @Rest\Get("/searchtree/{lang}/{id}")
      * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"Default", "tree"})
      */
-    public function searchtreeAction(int $id)
+    public function searchtreeAction(int $id): View
     {
-        $em = $this->getDoctrine()->getManager('tecdoc');
+        $entityManager = $this->get('gweb_tecdoc.entity_manager');
 
-        return $em->getRepository(Tecdoc301SearchTree::class)->getTree($id);
+        $searchTree = $entityManager->getRepository(Tecdoc301SearchTree::class)->getTree($id);
+
+        return $this->view($searchTree);
     }
 
     /**
      * @Rest\Get("/searchnode/{lang}/{id}")
      * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"Default", "node"})
      */
-    public function searchnodeAction(string $lang, int $id)
+    public function searchnodeAction(int $id): View
     {
-        $em = $this->getDoctrine()->getManager('tecdoc');
+        $entityManager = $this->get('gweb_tecdoc.entity_manager');
 
-        return $em->getRepository(Tecdoc301SearchTree::class)->find($id);
+        $searchNode = $entityManager->getRepository(Tecdoc301SearchTree::class)->find($id);
+
+        return $this->view($searchNode);
     }
 }
