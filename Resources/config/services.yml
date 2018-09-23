@@ -1,6 +1,10 @@
 
 services:
 
+    Gweb\TecdocBundle\Command\:
+        resource: '../../Command'
+        tags: ['console.command']
+
     gweb_tecdoc.entity_manager:
         public: true
         class: Gweb\TecdocBundle\Service\EntityManager
