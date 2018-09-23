@@ -1,5 +1,5 @@
 
-# TecdocBundle for Symfony
+# Tecdoc Bundle
 
 This bundle integrates the TecDoc vehicle and spare parts database into Symfony.
 
@@ -18,38 +18,45 @@ This bundle integrates the TecDoc vehicle and spare parts database into Symfony.
 composer require gweb/tecdoc-bundle
 ```
 
-Add plugin dependencies to your AppKernel.php file:
+Now, enable the bundle in your config/bundles.php file:
 ```php
-new Gweb\TecdocBundle\GwebTecdocBundle(),
+return [
+    // ...
+    Gweb\TecdocBundle\GwebTecdocBundle::class => ['all' => true],
+];
 ```
 
-Import required config in your app/config/config.yml file:
-```yaml
-imports:
-    - { resource: "@GwebTecdocBundle/Resources/config/config.yml" }
-```
+## Configuration
 
-If you want to use the demo API, import routing on top of your app/config/routing.yml file:
+Add a new configuration file to: config/packages/gweb_tecdoc.yaml
 ```yaml
 gweb_tecdoc:
-    resource: "@GwebTecdocBundle/Controller/"
-    type:     rest
-    prefix:   /tecdoc
+    dir:
+        download:
+            reference: '%kernel.project_dir%/var/tecdoc/download/R_TAF24'
+            supplier: '%kernel.project_dir%/var/tecdoc/download/D_TAF24'
+            media: '%kernel.project_dir%/var/tecdoc/download/PIC_FILES'
+        data:
+            reference: '%kernel.project_dir%/var/tecdoc/data/reference'
+            supplier: '%kernel.project_dir%/var/tecdoc/data/supplier'
+            media: '%kernel.project_dir%/var/tecdoc/data/media'
+    translator:
+        autoload: true
+        default_locale: en
 
-```
-
-Parameters you can override in your parameters.yml(.dist) file
-```yaml
-tecdoc_database_driver: pdo_mysql
-tecdoc_database_host: localhost
-tecdoc_database_port: 3306
-tecdoc_database_name: tecdoc
-tecdoc_database_user: tecdoc
-tecdoc_database_password: secret
-tecdoc_download_reference: var/tecdoc/download/R_TAF24
-tecdoc_download_supplier: var/tecdoc/download/D_TAF24
-tecdoc_download_media: var/tecdoc/download/PIC_FILES
-tecdoc_default_locale: en
+doctrine:
+    dbal:
+        connections:
+             tecdoc:
+                url:      'mysql://user:pass@localhost:3306/tecdoc'
+                driver:   'pdo_mysql'
+                charset:  UTF8
+    orm:
+        entity_managers:
+            tecdoc:
+                connection: tecdoc
+                mappings:
+                    GwebTecdocBundle: ~
 ```
 
 ## Import
@@ -76,10 +83,13 @@ Simple example usage, you can find more in Controller directory
 ```php
 class SupplierController
 {
-    public function indexAction() {
-        $em = $this->getDoctrine()->getManager('tecdoc');
+    public function indexAction() 
+    {
+        $em = $this->get('gweb_tecdoc.entity_manager');
     
         $suppliers = $em->getRepository(Tecdoc001DataSupplier::class)->findAll();
+        
+        return $this->json($suppliers);
     }
 }
 ```
