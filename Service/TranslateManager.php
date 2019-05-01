@@ -2,6 +2,7 @@
 
 namespace Gweb\TecdocBundle\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Gweb\TecdocBundle\Entity\Tecdoc012CountryDescription;
 use Gweb\TecdocBundle\Entity\Tecdoc020Language;
 use Gweb\TecdocBundle\Entity\Tecdoc030LanguageDescription;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 class TranslateManager
 {
-    /** @var EntityManager */
+    /** @var EntityManagerInterface */
     private $entityManager;
 
     /**
@@ -36,11 +37,11 @@ class TranslateManager
 
     /**
      * TranslateManager constructor.
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param RequestStack $requestStack
      * @param string $languageDefault
      */
-    public function __construct(EntityManager $entityManager, RequestStack $requestStack, string $languageDefault)
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack, string $languageDefault)
     {
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
@@ -90,37 +91,25 @@ class TranslateManager
     /**
      * Get country description by id
      * @param int $lbeznr
-     * @return null|string
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Tecdoc012CountryDescription|null
      */
-    public function getCountryDescription(int $lbeznr): ?string
+    public function getCountryDescription(int $lbeznr): ?Tecdoc012CountryDescription
     {
         $repo = $this->entityManager->getRepository(Tecdoc012CountryDescription::class);
 
-        $description = $repo->findDescription($lbeznr, $this->getLanguageId());
-
-        if ($description) {
-            return $description->getBez();
-        }
-        return null;
+        return $repo->findDescription($lbeznr, $this->getLanguageId());
     }
 
     /**
      * Get language description by id
      * @param int $beznr
-     * @return null|string
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Tecdoc030LanguageDescription|null
      */
-    public function getLanguageDescription(int $beznr): ?string
+    public function getLanguageDescription(int $beznr): ?Tecdoc030LanguageDescription
     {
         $repo = $this->entityManager->getRepository(Tecdoc030LanguageDescription::class);
 
-        $description = $repo->findDescription($beznr, $this->getLanguageId());
-
-        if ($description) {
-            return $description->getBez();
-        }
-        return null;
+        return $repo->findDescription($beznr, $this->getLanguageId());
     }
 
     /**

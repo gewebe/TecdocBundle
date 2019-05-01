@@ -2,6 +2,8 @@
 
 namespace Gweb\TecdocBundle\Entity\Traits;
 
+use Gweb\TecdocBundle\Entity\Tecdoc030LanguageDescription;
+
 /**
  * Translate language description
  * @package Gweb\TecdocBundle\Entity\Traits
@@ -11,22 +13,22 @@ namespace Gweb\TecdocBundle\Entity\Traits;
 trait LanguageDescriptionTrait
 {
     /**
-     * @var string
+     * @var Tecdoc030LanguageDescription|null
      */
     private $description;
 
     /**
-     * @return string|null
+     * @return Tecdoc030LanguageDescription|null
      */
-    public function getDescription(): ?string
+    public function getDescription(): ?Tecdoc030LanguageDescription
     {
         return $this->description;
     }
 
     /**
-     * @param string|null $description
+     * @param Tecdoc030LanguageDescription|null $description
      */
-    public function setDescription(?string $description): void
+    public function setDescription(?Tecdoc030LanguageDescription $description): void
     {
         $this->description = $description;
     }

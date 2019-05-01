@@ -3,7 +3,7 @@
 namespace Gweb\TecdocBundle\Entity\Traits;
 
 /**
- * Translate country description
+ * Translate country and language description
  * @package Gweb\TecdocBundle\Entity\Traits
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
@@ -11,22 +11,22 @@ namespace Gweb\TecdocBundle\Entity\Traits;
 trait CountryDescriptionTrait
 {
     /**
-     * @var string
+     * @var Tecdoc012CountryDescription|null
      */
     private $description;
 
     /**
-     * @return string|null
+     * @return Tecdoc012CountryDescription|null
      */
-    public function getDescription(): ?string
+    public function getDescription(): ?Tecdoc012CountryDescription
     {
         return $this->description;
     }
 
     /**
-     * @param string|null $description
+     * @param Tecdoc012CountryDescription|null $description
      */
-    public function setDescription(?string $description): void
+    public function setDescription(?Tecdoc012CountryDescription $description): void
     {
         $this->description = $description;
     }
