@@ -3,7 +3,7 @@
 namespace Gweb\TecdocBundle\Command;
 
 use Gweb\TecdocBundle\Service\ImportManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,12 +14,19 @@ use Symfony\Component\Process\Process;
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
  */
-class ImportCommand extends ContainerAwareCommand
+class ImportCommand extends Command
 {
     /**
      * @var ImportManager
      */
     private $importManager;
+
+    public function __construct(ImportManager $importManager)
+    {
+        parent::__construct();
+
+        $this->importManager = $importManager;
+    }
 
     protected function configure()
     {
@@ -38,8 +45,6 @@ class ImportCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->importManager = $this->getContainer()->get('gweb_tecdoc.import_manager');
-
         // import single entity
         $entity = $input->getOption('entity');
         if ($entity) {
@@ -97,5 +102,4 @@ class ImportCommand extends ContainerAwareCommand
             usleep(1000);
         }
     }
-
 }

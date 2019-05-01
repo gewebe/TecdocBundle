@@ -2,8 +2,8 @@
 
 namespace Gweb\TecdocBundle\Service;
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Gweb\TecdocBundle\Annotation\Column;
 use Gweb\TecdocBundle\Annotation\Table;
 use Symfony\Component\Filesystem\Filesystem;
@@ -27,17 +27,17 @@ class ImportManager
     private $dirSupplier;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $entityManager;
 
     /**
      * ImportService constructor.
-     * @param ObjectManager $entityManager
+     * @param EntityManagerInterface $entityManager
      * @param string $dirReference
      * @param string $dirSupplier
      */
-    public function __construct(ObjectManager $entityManager, string $dirReference, string $dirSupplier)
+    public function __construct(EntityManagerInterface $entityManager, string $dirReference, string $dirSupplier)
     {
         $this->entityManager = $entityManager;
         $this->dirReference = $dirReference;
