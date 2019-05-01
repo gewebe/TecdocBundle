@@ -5,7 +5,7 @@ namespace Gweb\TecdocBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Gweb\TecdocBundle\Annotation as File;
-use Gweb\TecdocBundle\Entity\Traits\DescriptionTrait;
+use Gweb\TecdocBundle\Entity\Traits\LanguageDescriptionTrait;
 
 /**
  * Tecdoc200Article
@@ -17,7 +17,7 @@ use Gweb\TecdocBundle\Entity\Traits\DescriptionTrait;
  */
 class Tecdoc200Article
 {
-    use DescriptionTrait;
+    use LanguageDescriptionTrait;
 
     /**
      * @var int

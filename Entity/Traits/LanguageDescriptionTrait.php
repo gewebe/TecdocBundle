@@ -3,15 +3,15 @@
 namespace Gweb\TecdocBundle\Entity\Traits;
 
 /**
- * Translate country and language description
+ * Translate language description
  * @package Gweb\TecdocBundle\Entity\Traits
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
  */
-trait DescriptionTrait
+trait LanguageDescriptionTrait
 {
     /**
-     * @var string|null $description
+     * @var string
      */
     private $description;
 
