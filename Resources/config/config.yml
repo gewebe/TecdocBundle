@@ -10,7 +10,7 @@ gweb_tecdoc:
             supplier: '%kernel.project_dir%/var/tecdoc/data/supplier'
             media: '%kernel.project_dir%/var/tecdoc/data/media'
     translator:
-        autoload: true
+        autoload: false
         default_locale: en
 
 doctrine:

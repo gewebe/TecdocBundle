@@ -1,6 +1,13 @@
 
 services:
 
+    Gweb\TecdocBundle\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Gweb\TecdocBundle\Service\EntityManager'
+            - '@Gweb\TecdocBundle\Service\TranslateManager'
+
     Gweb\TecdocBundle\Command\ExtractCommand:
         tags: ['console.command']
         arguments:
