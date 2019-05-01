@@ -13,7 +13,10 @@ use Gweb\TecdocBundle\Entity\Tecdoc030LanguageDescription;
 trait LanguageDescriptionTrait
 {
     /**
-     * @var Tecdoc030LanguageDescription|null
+     * @ORM\ManyToOne(targetEntity="Gweb\TecdocBundle\Entity\Tecdoc030LanguageDescription", fetch="LAZY")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="BezNr", referencedColumnName="BezNr", nullable=true)
+     * })
      */
     private $description;
 

@@ -13,7 +13,11 @@ use Gweb\TecdocBundle\Entity\Tecdoc231Image;
 trait ImageTrait
 {
     /**
-     * @var Tecdoc231Image|null
+     * @ORM\ManyToOne(targetEntity="Gweb\TecdocBundle\Entity\Tecdoc231Image")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="BildNr", referencedColumnName="BildNr", nullable=true),
+     *      @ORM\JoinColumn(name="DokumentenArt", referencedColumnName="DokumentenArt", nullable=true)
+     * })
      */
     private $image;
 

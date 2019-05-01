@@ -11,7 +11,10 @@ namespace Gweb\TecdocBundle\Entity\Traits;
 trait CountryDescriptionTrait
 {
     /**
-     * @var Tecdoc012CountryDescription|null
+     * @ORM\ManyToOne(targetEntity="Gweb\TecdocBundle\Entity\Tecdoc012CountryDescription", fetch="LAZY")
+     * @ORM\JoinColumns({
+     *      @ORM\JoinColumn(name="LBezNr", referencedColumnName="LBezNr", nullable=true)
+     * })
      */
     private $description;
 
