@@ -3,14 +3,13 @@
 namespace Gweb\TecdocBundle\Repository;
 
 use Gweb\TecdocBundle\Entity\Tecdoc301SearchTree;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Entity repository for SearchTree
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
  */
-class SearchTreeRepository extends EntityRepository
+class SearchTreeRepository extends TranslateEntityRepository
 {
     /**
      * Get search tree by id
@@ -19,15 +18,35 @@ class SearchTreeRepository extends EntityRepository
      */
     public function getTree(int $treetypenr): array
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $dql = 'SELECT searchtree, description
+                FROM Gweb\TecdocBundle\Entity\Tecdoc301SearchTree searchtree
+                JOIN searchtree.description description WITH description.sprachnr = :sprachnr
+                WHERE searchtree.treetypenr = :treetypenr
+                AND searchtree.nodeparentId IS NULL
+                ORDER BY searchtree.sortnr
+        ';
 
-        $qb->select(['searchtree'])
-            ->from(Tecdoc301SearchTree::class, 'searchtree')
-            ->where('searchtree.treetypenr = :treetypenr')
-            ->andWhere('searchtree.nodeparentId IS NULL')
-            ->orderBy('searchtree.sortnr')
-            ->setParameter(':treetypenr', $treetypenr);
+        $query = $this->getEntityManager()->createQuery($dql);
 
-        return $qb->getQuery()->getResult();
+        $query->setParameter('treetypenr', $treetypenr);
+        $query->setParameter('sprachnr', $this->languageId);
+
+        return $query->getResult();
+    }
+
+    public function getNode(int $nodeId): array
+    {
+        $dql = 'SELECT searchtree, description
+                FROM Gweb\TecdocBundle\Entity\Tecdoc301SearchTree searchtree
+                JOIN searchtree.description description WITH description.sprachnr = :sprachnr
+                WHERE searchtree.nodeId = :nodeId
+        ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        $query->setParameter('nodeId', $nodeId);
+        $query->setParameter('sprachnr', $this->languageId);
+
+        return $query->getResult();
     }
 }
