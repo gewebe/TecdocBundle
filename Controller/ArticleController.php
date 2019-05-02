@@ -6,7 +6,10 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use Gweb\TecdocBundle\Entity\Tecdoc200Article;
 use Gweb\TecdocBundle\Entity\Tecdoc203ArticleReferenceNumber;
+use Gweb\TecdocBundle\Entity\Tecdoc204ArticleSupersedeNumber;
 use Gweb\TecdocBundle\Entity\Tecdoc206ArticleText;
+use Gweb\TecdocBundle\Entity\Tecdoc207ArticleTradeNumber;
+use Gweb\TecdocBundle\Entity\Tecdoc209ArticleEAN;
 use Gweb\TecdocBundle\Entity\Tecdoc210ArticleCriteria;
 use Gweb\TecdocBundle\Entity\Tecdoc211ArticleGenericArticle;
 use Gweb\TecdocBundle\Entity\Tecdoc232ArticleImage;
@@ -86,12 +89,54 @@ class ArticleController extends ApiController
     }
 
     /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/ean")
+     */
+    public function articleEanAction(int $dlnr, string $artnr): View
+    {
+        $repository = $this->getRepository(Tecdoc209ArticleEAN::class);
+        $articleText = $repository->findBy([
+            'dlnr' => $dlnr,
+            'artnr' => $artnr
+        ]);
+
+        return $this->view($articleText);
+    }
+
+    /**
      * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/reference")
      */
     public function articleReferenceAction(int $dlnr, string $artnr): View
     {
         $repository = $this->getRepository(Tecdoc203ArticleReferenceNumber::class);
         $articleText = $repository->findByArticle($dlnr, $artnr);
+
+        return $this->view($articleText);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/supersede")
+     */
+    public function articleSupersedeAction(int $dlnr, string $artnr): View
+    {
+        $repository = $this->getRepository(Tecdoc204ArticleSupersedeNumber::class);
+        $articleText = $repository->findBy([
+            'dlnr' => $dlnr,
+            'artnr' => $artnr
+        ]);
+
+        return $this->view($articleText);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/trade")
+     */
+    public function articleTradeAction(int $dlnr, string $artnr): View
+    {
+        $repository = $this->getRepository(Tecdoc207ArticleTradeNumber::class);
+        $articleText = $repository->findBy([
+            'dlnr' => $dlnr,
+            'artnr' => $artnr
+        ]);
 
         return $this->view($articleText);
     }
