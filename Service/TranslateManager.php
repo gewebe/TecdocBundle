@@ -2,6 +2,7 @@
 
 namespace Gweb\TecdocBundle\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Gweb\TecdocBundle\Entity\Tecdoc012CountryDescription;
 use Gweb\TecdocBundle\Entity\Tecdoc020Language;
@@ -113,16 +114,16 @@ class TranslateManager
     }
 
     /**
-     * Get text module by supplier-id and text-id
+     * Get text modules by datasupplier-id and text-id
      * @param int $dlnr
-     * @param int $tbsnr
-     * @return null|string
+     * @param string $tbsnr
+     * @return ArrayCollection|null
      */
-    public function getTextModule(int $dlnr, int $tbsnr): ?string
+    public function getTextModule(int $dlnr, string $tbsnr): ?ArrayCollection
     {
         $repo = $this->entityManager->getRepository(Tecdoc035TextModule::class);
 
-        $textmodule = $repo->findOneBy(
+        $text = $repo->findBy(
             [
             'dlnr' => $dlnr,
             'tbsnr' => $tbsnr,
@@ -130,10 +131,7 @@ class TranslateManager
             ]
         );
 
-        if ($textmodule) {
-            return $textmodule->getBez();
-        }
-        return null;
+        return new ArrayCollection($text);
     }
 
     /**
