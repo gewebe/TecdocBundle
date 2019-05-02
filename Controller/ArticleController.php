@@ -5,6 +5,7 @@ namespace Gweb\TecdocBundle\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use Gweb\TecdocBundle\Entity\Tecdoc200Article;
+use Gweb\TecdocBundle\Entity\Tecdoc203ArticleReferenceNumber;
 use Gweb\TecdocBundle\Entity\Tecdoc206ArticleText;
 use Gweb\TecdocBundle\Entity\Tecdoc210ArticleCriteria;
 use Gweb\TecdocBundle\Entity\Tecdoc211ArticleGenericArticle;
@@ -79,6 +80,17 @@ class ArticleController extends ApiController
     public function articleTextAction(int $dlnr, string $artnr): View
     {
         $repository = $this->getRepository(Tecdoc206ArticleText::class);
+        $articleText = $repository->findByArticle($dlnr, $artnr);
+
+        return $this->view($articleText);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/reference")
+     */
+    public function articleReferenceAction(int $dlnr, string $artnr): View
+    {
+        $repository = $this->getRepository(Tecdoc203ArticleReferenceNumber::class);
         $articleText = $repository->findByArticle($dlnr, $artnr);
 
         return $this->view($articleText);
