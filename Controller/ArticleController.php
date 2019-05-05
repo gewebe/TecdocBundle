@@ -14,6 +14,9 @@ use Gweb\TecdocBundle\Entity\Tecdoc210ArticleCriteria;
 use Gweb\TecdocBundle\Entity\Tecdoc211ArticleGenericArticle;
 use Gweb\TecdocBundle\Entity\Tecdoc232ArticleImage;
 use Gweb\TecdocBundle\Entity\Tecdoc400ArticleLinkage;
+use Gweb\TecdocBundle\Entity\Tecdoc401ArticleLinkageText;
+use Gweb\TecdocBundle\Entity\Tecdoc410ArticleLinkageCriteria;
+use Gweb\TecdocBundle\Entity\Tecdoc432ArticleLinkageImage;
 
 /**
  * Tecdoc Article API
@@ -142,12 +145,64 @@ class ArticleController extends ApiController
     }
 
     /**
-     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/{genartnr}/car")
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/generic/{genartnr}/vehicle")
      */
     public function articleVehicleAction(int $dlnr, string $artnr, int $genartnr): View
     {
         $repository = $this->getRepository(Tecdoc400ArticleLinkage::class);
-        $articleVehicle = $repository->findByArticle($dlnr, $artnr, $genartnr, 2);
+        $articleVehicle = $repository->findVehicleByArticle(
+            $dlnr,
+            $artnr,
+            $genartnr
+        );
+
+        return $this->view($articleVehicle);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/generic/{genartnr}/vehicle/{ktypnr}/criteria")
+     */
+    public function articleVehicleCriteriaAction(int $dlnr, string $artnr, int $genartnr, int $ktypnr): View
+    {
+        $repository = $this->getRepository(Tecdoc410ArticleLinkageCriteria::class);
+        $articleVehicle = $repository->findByArticleVehicle(
+            $dlnr,
+            $artnr,
+            $genartnr,
+            $ktypnr
+        );
+
+        return $this->view($articleVehicle);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/generic/{genartnr}/vehicle/{ktypnr}/image")
+     */
+    public function articleVehicleImageAction(int $dlnr, string $artnr, int $genartnr, int $ktypnr): View
+    {
+        $repository = $this->getRepository(Tecdoc432ArticleLinkageImage::class);
+        $articleVehicle = $repository->findByArticleVehicle(
+            $dlnr,
+            $artnr,
+            $genartnr,
+            $ktypnr
+        );
+
+        return $this->view($articleVehicle);
+    }
+
+    /**
+     * @Rest\Get("/article/{lang}/{dlnr}/{artnr}/generic/{genartnr}/vehicle/{ktypnr}/text")
+     */
+    public function articleVehicleTextAction(int $dlnr, string $artnr, int $genartnr, int $ktypnr): View
+    {
+        $repository = $this->getRepository(Tecdoc401ArticleLinkageText::class);
+        $articleVehicle = $repository->findByArticleVehicle(
+            $dlnr,
+            $artnr,
+            $genartnr,
+            $ktypnr
+        );
 
         return $this->view($articleVehicle);
     }

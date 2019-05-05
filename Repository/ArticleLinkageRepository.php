@@ -13,6 +13,26 @@ use Doctrine\ORM\EntityRepository;
 class ArticleLinkageRepository extends EntityRepository
 {
     /**
+     * Find article vehicle
+     * @param int $dlnr
+     * @param string $artnr
+     * @param int $genartnr
+     * @return Tecdoc400ArticleLinkage[]
+     */
+    public function findVehicleByArticle(
+        int $dlnr,
+        string $artnr,
+        int $genartnr
+    ): array {
+        $this->findByArticle(
+            $dlnr,
+            $artnr,
+            $genartnr,
+            Tecdoc400ArticleLinkage::LINKAGE_VEHICLE
+        );
+    }
+
+    /**
      * Find article linkage
      * @param int $dlnr
      * @param string $artnr
@@ -43,5 +63,4 @@ class ArticleLinkageRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
 }
