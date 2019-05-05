@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
  */
-class KeyTableEntryRepository extends EntityRepository
+class KeyTableEntryRepository extends TranslateEntityRepository
 {
     /**
      * Find key table entry
@@ -21,20 +21,32 @@ class KeyTableEntryRepository extends EntityRepository
      */
     public function findKeyEntry(int $tabnr, string $key): ?Tecdoc052KeyTableEntry
     {
-        $qb = $this->getEntityManager()->createQueryBuilder();
+        $dql = "SELECT keyEntry,
+                       keyTable,
+                       keyEntryDescription,
+                       keyTableDescription
+                FROM Gweb\TecdocBundle\Entity\Tecdoc052KeyTableEntry keyEntry
+                JOIN keyEntry.keyTable keyTable
+                JOIN keyEntry.description keyEntryDescription WITH keyEntryDescription.sprachnr = :sprachnr
+                JOIN keyTable.description keyTableDescription WITH keyTableDescription.sprachnr = :sprachnr
+                WHERE keyEntry.tabnr = :tabnr
+                AND (
+                    (keyTable.tabtyp = 'N' AND keyEntry.key = :key_number)
+                    OR 
+                    (keyTable.tabtyp = 'A' AND keyEntry.key = :key_string)
+                )
+        ";
 
-        $qb->select(['keyEntry'])
-            ->from(Tecdoc052KeyTableEntry::class, 'keyEntry')
-            ->join('keyEntry.keyTable', 'keyTable')
-            ->where("keyEntry.tabnr = :tabnr AND keyTable.tabtyp = 'N' AND keyEntry.key = :key_number")
-            ->orWhere("keyEntry.tabnr = :tabnr AND keyTable.tabtyp = 'A' AND keyEntry.key = :key_string")
-            ->setParameter(':tabnr', $tabnr)
-            // integer stored with leading zeros
-            ->setParameter(':key_number', sprintf('%03d', $key))
-            ->setParameter(':key_string', $key);
+        $query = $this->getEntityManager()->createQuery($dql);
 
-        // cache query
-        return $qb->getQuery()
+        $query->setParameter('tabnr', $tabnr);
+        $query->setParameter('sprachnr', $this->languageId);
+
+        // integer stored with leading zeros
+        $query->setParameter('key_number',  sprintf('%03d', $key));
+        $query->setParameter('key_string', $key);
+
+        return $query
             ->useQueryCache(true)
             ->useResultCache(true, 3600, Tecdoc052KeyTableEntry::class.$tabnr.$key)
             ->getOneOrNullResult();
