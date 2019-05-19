@@ -25,7 +25,7 @@ class ArticleRepository extends TranslateEntityRepository
                 WHERE article.dlnr = :dlnr
         ';
 
-        $query = $this->getEntityManager()->createQuery($dql);
+        $query = $this->getEntityManager()->createQuery($dql)->setMaxResults(1000);
 
         $query->setParameter('dlnr', $dlnr);
         $query->setParameter('sprachnr', $this->languageId);

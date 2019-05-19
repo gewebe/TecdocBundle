@@ -34,11 +34,19 @@ class SearchTreeRepository extends TranslateEntityRepository
         return $query->getResult();
     }
 
-    public function getNode(int $nodeId): array
+    /**
+     * Get node with childs by id
+     * @param int $nodeId
+     * @return Tecdoc301SearchTree|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getNode(int $nodeId): ?Tecdoc301SearchTree
     {
-        $dql = 'SELECT searchtree, description
+        $dql = 'SELECT searchtree, description, childs, childs_description
                 FROM Gweb\TecdocBundle\Entity\Tecdoc301SearchTree searchtree
                 JOIN searchtree.description description WITH description.sprachnr = :sprachnr
+                LEFT JOIN searchtree.childs childs
+                LEFT JOIN childs.description childs_description WITH childs_description.sprachnr = :sprachnr
                 WHERE searchtree.nodeId = :nodeId
         ';
 
@@ -47,6 +55,6 @@ class SearchTreeRepository extends TranslateEntityRepository
         $query->setParameter('nodeId', $nodeId);
         $query->setParameter('sprachnr', $this->languageId);
 
-        return $query->getResult();
+        return $query->getOneOrNullResult();
     }
 }

@@ -1,18 +1,12 @@
 <?php
 
-namespace Gweb\TecdocBundle\Controller;
+namespace Gweb\TecdocBundle\Api\Builder;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Gweb\TecdocBundle\Service\TranslateManager;
 
-/**
- * Tecdoc API Controller
- *
- * @author Gerd Weitenberg <gweitenb@gmail.com>
- */
-class ApiController extends AbstractFOSRestController
+class ApiBuilder
 {
     /**
      * @var EntityManagerInterface

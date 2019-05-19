@@ -1,12 +1,32 @@
 
 services:
 
-    Gweb\TecdocBundle\Controller\:
-        resource: '../../Controller'
-        tags: ['controller.service_arguments']
+    Gweb\TecdocBundle\Api\Builder\:
+        resource: '../../Api/Builder'
         arguments:
             - '@Gweb\TecdocBundle\Service\EntityManager'
             - '@Gweb\TecdocBundle\Service\TranslateManager'
+
+    Gweb\TecdocBundle\Api\Controller\ArticleController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Gweb\TecdocBundle\Api\Builder\ArticleBuilder'
+
+    Gweb\TecdocBundle\Api\Controller\CategoryController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Gweb\TecdocBundle\Api\Builder\CategoryBuilder'
+
+    Gweb\TecdocBundle\Api\Controller\SupplierController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Gweb\TecdocBundle\Api\Builder\SupplierBuilder'
+
+    Gweb\TecdocBundle\Api\Controller\VehicleController:
+        tags: ['controller.service_arguments']
+        arguments:
+            - '@Gweb\TecdocBundle\Api\Builder\VehicleBuilder'
+
 
     Gweb\TecdocBundle\Command\ExtractCommand:
         tags: ['console.command']
@@ -17,6 +37,7 @@ services:
         tags: ['console.command']
         arguments:
             - '@Gweb\TecdocBundle\Service\ImportManager'
+
 
     Gweb\TecdocBundle\Service\EntityManager:
         arguments:

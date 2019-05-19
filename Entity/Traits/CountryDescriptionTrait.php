@@ -2,6 +2,8 @@
 
 namespace Gweb\TecdocBundle\Entity\Traits;
 
+use Gweb\TecdocBundle\Entity\Tecdoc012CountryDescription;
+
 /**
  * Translate country and language description
  * @package Gweb\TecdocBundle\Entity\Traits

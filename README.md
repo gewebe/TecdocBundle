@@ -41,7 +41,7 @@ gweb_tecdoc:
             supplier: '%kernel.project_dir%/var/tecdoc/data/supplier'
             media: '%kernel.project_dir%/var/tecdoc/data/media'
     translator:
-        autoload: true
+        autoload: false
         default_locale: en
 
 doctrine:
@@ -78,7 +78,7 @@ bin/console tecdoc:import --threads=2
 ```
 
 ## Usage
-Simple example usage, you can find more in Controller directory
+Simple example usage, you can find more in Api directory
 
 ```php
 class SupplierController

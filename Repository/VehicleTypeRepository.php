@@ -40,4 +40,26 @@ class VehicleTypeRepository extends TranslateEntityRepository
 
         return $query->getOneOrNullResult();
     }
+
+    /**
+     * @param int $kmodnr
+     * @return Tecdoc120VehicleType[]
+     */
+    public function findByVehicleModel(int $kmodnr): array
+    {
+        $dql = 'SELECT vehicle, 
+                       vehicleDescription
+                FROM Gweb\TecdocBundle\Entity\Tecdoc120VehicleType vehicle
+                JOIN vehicle.description vehicleDescription WITH vehicleDescription.sprachnr = :sprachnr
+                WHERE vehicle.kmodnr = :kmodnr
+                ORDER BY vehicle.sortnr
+        ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        $query->setParameter('kmodnr', $kmodnr);
+        $query->setParameter('sprachnr', $this->languageId);
+
+        return $query->getResult();
+    }
 }

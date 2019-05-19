@@ -2,34 +2,55 @@
 
 namespace Gweb\TecdocBundle\Repository;
 
+use Gweb\TecdocBundle\Entity\Tecdoc120VehicleType;
 use Gweb\TecdocBundle\Entity\Tecdoc400ArticleLinkage;
-use Doctrine\ORM\EntityRepository;
 
 /**
  * Entity repository for ArticleLinkage
  *
  * @author Gerd Weitenberg <gweitenb@gmail.com>
  */
-class ArticleLinkageRepository extends EntityRepository
+class ArticleLinkageRepository extends TranslateEntityRepository
 {
     /**
      * Find article vehicle
      * @param int $dlnr
      * @param string $artnr
      * @param int $genartnr
-     * @return Tecdoc400ArticleLinkage[]
+     * @return Tecdoc120VehicleType[]
      */
     public function findVehicleByArticle(
         int $dlnr,
         string $artnr,
         int $genartnr
     ): array {
-        $this->findByArticle(
-            $dlnr,
-            $artnr,
-            $genartnr,
-            Tecdoc400ArticleLinkage::LINKAGE_VEHICLE
-        );
+        $dql = 'SELECT vehicle, 
+                       vehicleDescription,
+                       model,
+                       modelDescription,
+                       manufacturer,
+                       manufacturerDescription
+                FROM Gweb\TecdocBundle\Entity\Tecdoc400ArticleLinkage articleLinkage
+                JOIN Gweb\TecdocBundle\Entity\Tecdoc120VehicleType vehicle WITH vehicle.ktypnr = articleLinkage.vknzielnr
+                JOIN vehicle.description vehicleDescription WITH vehicleDescription.sprachnr = :sprachnr
+                JOIN vehicle.vehicleModel model
+                JOIN model.description modelDescription WITH modelDescription.sprachnr = :sprachnr
+                JOIN model.manufacturer manufacturer
+                JOIN manufacturer.description manufacturerDescription WITH manufacturerDescription.sprachnr = :sprachnr
+                WHERE articleLinkage.dlnr = :dlnr
+                AND articleLinkage.artnr = :artnr
+                AND articleLinkage.genartnr = :genartnr
+                AND articleLinkage.vknzielart = 2
+        ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        $query->setParameter('dlnr', $dlnr);
+        $query->setParameter('artnr', $artnr);
+        $query->setParameter('genartnr', $genartnr);
+        $query->setParameter('sprachnr', $this->languageId);
+
+        return $query->getResult();
     }
 
     /**

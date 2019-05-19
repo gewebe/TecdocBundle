@@ -3,7 +3,6 @@
 namespace Gweb\TecdocBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Gweb\TecdocBundle\Annotation as File;
 use Gweb\TecdocBundle\Entity\Traits\LanguageDescriptionTrait;
 
@@ -54,7 +53,6 @@ class Tecdoc200Article
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="DLNr", referencedColumnName="DLNr")
      * })
-     * @Serializer\Exclude()
      */
     private $datasupplier;
 
