@@ -61,22 +61,27 @@ class TranslateManager
         }
 
         $request = $this->requestStack->getCurrentRequest();
+
         if ($request && $request->get('lang')) {
-            $this->setLanguageIdByIsocode($request->get('lang'));
-        } else {
-            $this->setLanguageIdByIsocode($this->languageDefault);
+            return $this->setLanguageIdByIsocode($request->get('lang'));
         }
 
-        return $this->languageId;
+        foreach ($request->getLanguages() as $language) {
+            try {
+                return $this->setLanguageIdByIsocode($language);
+            } catch (\RuntimeException $e) {}
+        }
+
+        return $this->setLanguageIdByIsocode($this->languageDefault);
     }
 
     /**
      * Set current language id
      * @param string $isocode
-     * @return void
+     * @return int
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function setLanguageIdByIsocode(string $isocode): void
+    public function setLanguageIdByIsocode(string $isocode): int
     {
         $language = $this->entityManager->getRepository(Tecdoc020Language::class)->findOneByIsocode(
             $isocode
@@ -87,6 +92,8 @@ class TranslateManager
         }
 
         $this->languageId = $language->getSprachNr();
+
+        return $this->languageId;
     }
 
     /**
