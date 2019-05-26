@@ -2,25 +2,41 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Hateoas\Configuration\Annotation as Hateoas;
+use Swagger\Annotations as SWG;
+
+/**
+ * @Hateoas\Relation(
+ *     "vehicle",
+ *     href=@Hateoas\Route(
+ *         "vehicle_model_type",
+ *         parameters={"modelId"= "expr(object.getId())"}
+ *     )
+ * )
+ */
 class VehicleModel
 {
     /**
      * @var int
+     * @SWG\Property(type="integer", example=6)
      */
     private $id;
 
     /**
      * @var string
+     * @SWG\Property(type="string", example="80 Avant (8C, B4)")
      */
     private $name;
 
     /**
      * @var string|null
+     * @SWG\Property(type="string", example="1991-08")
      */
     private $buildFrom;
 
     /**
      * @var string|null
+     * @SWG\Property(type="string", example="1995-12")
      */
     private $buildUntil;
 

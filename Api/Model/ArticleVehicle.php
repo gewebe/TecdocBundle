@@ -2,25 +2,32 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+
 class ArticleVehicle
 {
     /**
      * @var Vehicle
+     * @SWG\Property(ref=@Model(type=Vehicle::class))
      */
     private $vehicle;
 
     /**
      * @var array
+     * @SWG\Property(type="array", @SWG\Items(type="string"))
      */
     private $images;
 
     /**
-     * @var array
+     * @var ArticleCriteria[]
+     * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=ArticleCriteria::class)))
      */
     private $criterias;
 
     /**
-     * @var array
+     * @var ArticleText[]
+     * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=ArticleText::class)))
      */
     private $texts;
 
@@ -87,5 +94,4 @@ class ArticleVehicle
     {
         $this->texts = $texts;
     }
-
 }

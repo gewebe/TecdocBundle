@@ -2,42 +2,68 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+
+/**
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *         "vehicle",
+ *         parameters={"vehicleId"= "expr(object.getId())"}
+ *     )
+ * )
+ */
 class Vehicle
 {
     /**
      * @var int
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="integer", example=1442)
      */
     private $id;
 
     /**
      * @var string
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="string", example="2.0 E 16V")
      */
     private $name;
 
     /**
-     * @var Manufacturer
-     */
-    private $manufacturer;
-
-    /**
-     * @var VehicleModel
-     */
-    private $vehicleModel;
-
-    /**
      * @var int
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="integer", example=140)
      */
     private $horsePower;
 
     /**
      * @var string|null
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="string", example="1993-01")
      */
     private $buildFrom;
 
     /**
      * @var string|null
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="string", example="1995-12")
      */
     private $buildUntil;
+
+    /**
+     * @var Manufacturer
+     * @SWG\Property(ref=@Model(type=Manufacturer::class))
+     */
+    private $manufacturer;
+
+    /**
+     * @var VehicleModel
+     * @SWG\Property(ref=@Model(type=VehicleModel::class))
+     */
+    private $vehicleModel;
 
     /**
      * @return int
@@ -69,38 +95,6 @@ class Vehicle
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return Manufacturer
-     */
-    public function getManufacturer(): Manufacturer
-    {
-        return $this->manufacturer;
-    }
-
-    /**
-     * @param Manufacturer $manufacturer
-     */
-    public function setManufacturer(Manufacturer $manufacturer): void
-    {
-        $this->manufacturer = $manufacturer;
-    }
-
-    /**
-     * @return VehicleModel
-     */
-    public function getVehicleModel(): VehicleModel
-    {
-        return $this->vehicleModel;
-    }
-
-    /**
-     * @param VehicleModel $vehicleModel
-     */
-    public function setVehicleModel(VehicleModel $vehicleModel): void
-    {
-        $this->vehicleModel = $vehicleModel;
     }
 
     /**
@@ -149,5 +143,37 @@ class Vehicle
     public function setBuildUntil(?string $buildUntil): void
     {
         $this->buildUntil = $buildUntil;
+    }
+
+    /**
+     * @return Manufacturer
+     */
+    public function getManufacturer(): Manufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    /**
+     * @param Manufacturer $manufacturer
+     */
+    public function setManufacturer(Manufacturer $manufacturer): void
+    {
+        $this->manufacturer = $manufacturer;
+    }
+
+    /**
+     * @return VehicleModel
+     */
+    public function getVehicleModel(): VehicleModel
+    {
+        return $this->vehicleModel;
+    }
+
+    /**
+     * @param VehicleModel $vehicleModel
+     */
+    public function setVehicleModel(VehicleModel $vehicleModel): void
+    {
+        $this->vehicleModel = $vehicleModel;
     }
 }

@@ -28,10 +28,22 @@ doctrine:
                     GwebTecdocBundle: ~
 
 # demo api
-#fos_rest:
-#    view:
-#        view_response_listener:  true
-#    format_listener:
-#        rules:
-#        - { path: ^/tecdoc, prefer_extension: true, fallback_format: json, priorities: [ json ] }
-#        - { path: ^/, stop: true }
+fos_rest:
+    param_fetcher_listener: true
+    view:
+        view_response_listener:  true
+    format_listener:
+        rules:
+            - { path: ^/tecdoc, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+            - { path: ^/, stop: true }
+
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Demo API
+            description:
+            version: 0.9.2
+
+    areas:
+        path_patterns:
+            - ^/tecdoc(?!/doc$) # Accepts routes under /tecdoc except /tecdoc/doc

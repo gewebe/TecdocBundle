@@ -15,10 +15,10 @@ class VehicleBuilder extends ApiBuilder
     /**
      * @return Manufacturer[]
      */
-    public function getManufacturers(): array
+    public function getVehicleManufacturers(): array
     {
         $repository = $this->getRepository(Tecdoc100Manufacturer::class);
-        $totalManufacturers = $repository->findAll();
+        $totalManufacturers = $repository->findByVehicle();
 
         $manufacturers = [];
 
@@ -151,6 +151,8 @@ class VehicleBuilder extends ApiBuilder
         $vehicleModel = new VehicleModel();
         $vehicleModel->setId($vehicleType->getVehicleModel()->getKmodnr());
         $vehicleModel->setName($vehicleType->getVehicleModel()->getDescription()->getBez());
+        $vehicleModel->setBuildFrom($vehicleType->getVehicleModel()->getBjvon()->format('Y-m'));
+        $vehicleModel->setBuildUntil($vehicleType->getVehicleModel()->getBjbis()->format('Y-m'));
         $vehicle->setVehicleModel($vehicleModel);
 
         return $vehicle;

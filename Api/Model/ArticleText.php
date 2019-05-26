@@ -2,15 +2,19 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Swagger\Annotations as SWG;
+
 class ArticleText
 {
     /**
      * @var bool
+     * @SWG\Property(type="boolean")
      */
     private $immediately;
 
     /**
      * @var string
+     * @SWG\Property(type="string", example="...")
      */
     private $text;
 

@@ -2,15 +2,19 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Swagger\Annotations as SWG;
+
 class ArticleReference
 {
     /**
      * @var string
+     * @SWG\Property(type="string", example="AUDI")
      */
     private $manufacturer;
 
     /**
      * @var array
+     * @SWG\Property(type="array", @SWG\Items(type="string"))
      */
     private $numbers;
 

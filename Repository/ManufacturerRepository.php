@@ -15,12 +15,15 @@ class ManufacturerRepository extends TranslateEntityRepository
      * Find all manufacturers
      * @return Tecdoc100Manufacturer[]
      */
-    public function findAll(): array
+    public function findByVehicle(): array
     {
-        $dql = 'SELECT manufacturer,
+        $dql = 'SELECT DISTINCT manufacturer,
                        description
                 FROM Gweb\TecdocBundle\Entity\Tecdoc100Manufacturer manufacturer
                 JOIN manufacturer.description description WITH description.sprachnr = :sprachnr
+                JOIN manufacturer.vehicleModels models
+                WHERE manufacturer.pkw = 1
+                ORDER BY description.bez
         ';
 
         $query = $this->getEntityManager()->createQuery($dql);

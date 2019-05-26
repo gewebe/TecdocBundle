@@ -2,15 +2,29 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Hateoas\Configuration\Annotation as Hateoas;
+use Swagger\Annotations as SWG;
+
+/**
+ * @Hateoas\Relation(
+ *     "article",
+ *     href=@Hateoas\Route(
+ *         "article_by_supplier",
+ *         parameters={"supplierId"= "expr(object.getId())"}
+ *     )
+ * )
+ */
 class Supplier
 {
     /**
      * @var int
+     * @SWG\Property(type="integer", example=3)
      */
     private $id;
 
     /**
      * @var string
+     * @SWG\Property(type="string", example="ATE")
      */
     private $name;
 

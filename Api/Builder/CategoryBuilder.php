@@ -29,15 +29,15 @@ class CategoryBuilder extends ApiBuilder
     }
 
     /**
-     * @param int $nodeId
+     * @param int $categoryId
      * @return Category|null
      */
-    public function getNode(int $nodeId): ?Category
+    public function getCategory(int $categoryId): ?Category
     {
         /**
          * @var Tecdoc301SearchTree $node
          */
-        $node = $this->getRepository(Tecdoc301SearchTree::class)->getNode($nodeId);
+        $node = $this->getRepository(Tecdoc301SearchTree::class)->getNode($categoryId);
 
         if (!$node) {
             return null;

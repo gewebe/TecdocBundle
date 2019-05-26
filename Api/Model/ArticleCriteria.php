@@ -2,15 +2,19 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Swagger\Annotations as SWG;
+
 class ArticleCriteria
 {
     /**
      * @var string
+     * @SWG\Property(type="string", example="Length [mm]")
      */
     private $name;
 
     /**
      * @var string
+     * @SWG\Property(type="string", example="746")
      */
     private $value;
 

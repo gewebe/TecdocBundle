@@ -2,20 +2,39 @@
 
 namespace Gweb\TecdocBundle\Api\Model;
 
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as JMS;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+
+/**
+ * @Hateoas\Relation(
+ *     "self",
+ *     href=@Hateoas\Route(
+ *         "category",
+ *         parameters={"categoryId"= "expr(object.getId())"}
+ *     )
+ * )
+ */
 class Category
 {
     /**
      * @var int
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="integer", example=100025)
      */
     private $id;
 
     /**
      * @var string
+     * @JMS\Groups({"list"})
+     * @SWG\Property(type="string", example="Motor")
      */
     private $name;
 
     /**
      * @var Category[]
+     * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=Category::class)))
      */
     private $childs;
 

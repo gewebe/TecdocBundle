@@ -3,7 +3,7 @@
   "description": "This bundle integrates the TecDoc vehicle and spare parts database into Symfony.",
   "type": "symfony-bundle",
   "license": "MIT",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "authors" : [{
     "name" : "Gerd Weitenberg",
     "email" : "gweitenb@gmail.com"
@@ -17,10 +17,14 @@
     "php": "^7.2",
     "doctrine/orm": "^2.6",
     "doctrine/doctrine-bundle": "^1.6",
+    "jms/serializer-bundle": "^3.1",
+    "nelmio/api-doc-bundle": "^3.4",
+    "symfony/asset": "^4.2",
     "symfony/framework-bundle": "^4.2",
     "symfony/process": "^4.2",
     "symfony/proxy-manager-bridge": "^4.2",
-    "jms/serializer-bundle": "^2.4"
+    "symfony/validator": "^4.2",
+    "willdurand/hateoas-bundle": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
