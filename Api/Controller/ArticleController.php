@@ -15,6 +15,22 @@ use Gweb\TecdocBundle\Api\Model\ArticleVehicle;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
+/**
+ * @SWG\Parameter(
+ *   name="supplierId",
+ *   description="Supplier-ID (DLNr)",
+ *   type="integer",
+ *   in="path",
+ *   required=true
+ * )
+ * @SWG\Parameter(
+ *   name="articleId",
+ *   description="Article-ID (ArtNr)",
+ *   type="string",
+ *   in="path",
+ *   required=true
+ * )
+ */
 class ArticleController extends AbstractFOSRestController
 {
     /**
@@ -32,34 +48,11 @@ class ArticleController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/article/{supplierId}")
-     *
-     * @SWG\Get(
-     *   tags={"Article"},
-     *   description="Find articles by supplier id",
-     *   @SWG\Response(
-     *     response=200,
-     *     description="Article list",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=Article::class, groups={"list"}))
-     *     )
-     *   )
-     * )
-     */
-    public function articleBySupplierAction(int $supplierId): View
-    {
-        $articles = $this->articleBuilder->getArticles($supplierId);
-
-        return $this->view($articles);
-    }
-
-    /**
      * @Rest\Get("/article/{supplierId}/{articleId}")
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article with all details by supplier-id and article-id",
+     *   description="Find article with all details",
      *   @SWG\Response(
      *     response=200,
      *     description="Article details",
@@ -89,10 +82,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article criteria by supplier-id and article-id",
+     *   description="Find article criterias",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Criterias",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleCriteria::class))
@@ -112,10 +105,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article image by supplier-id and article-id",
+     *   description="Find article images",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Images",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(type="string")
@@ -135,10 +128,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article text by supplier-id and article-id",
+     *   description="Find article texts",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Texts",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleText::class))
@@ -158,10 +151,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article ean by supplier-id and article-id",
+     *   description="Find article ean numbers",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="EAN numbers",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(type="string")
@@ -181,10 +174,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article reference numbers by supplier-id and article-id",
+     *   description="Find article reference numbers",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Reference numbers",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleReference::class))
@@ -204,10 +197,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article supersede number by supplier-id and article-id",
+     *   description="Find article supersede numbers",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Supersede numbers",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(type="string")
@@ -227,10 +220,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article trade number by supplier-id and article-id",
+     *   description="Find article trade numbers",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Trade numbers",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(type="string")
@@ -250,10 +243,10 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find generic articles by supplier-id and article-id",
+     *   description="Find generic articles",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Generic articles",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleGeneric::class, groups={"list"}))
@@ -273,15 +266,22 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article vehicle by supplier-id, article-id and generic-article-id",
+     *   description="Find article vehicles with details",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicles details",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleVehicle::class))
      *     )
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="genericId",
+     *   description="Generic-Article-ID (GenArtNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function articleVehicleAction(int $supplierId, string $articleId, int $genericId): View
@@ -300,15 +300,29 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article vehicle criteria by supplier-id and article-id",
+     *   description="Find article vehicle criterias",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Criterias",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleCriteria::class))
      *     )
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="genericId",
+     *   description="Generic-Article-ID (GenArtNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
+     * )
+     * @SWG\Parameter(
+     *   name="vehicleId",
+     *   description="Vehicle-ID (KTyprNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function articleVehicleCriteriaAction(
@@ -332,15 +346,29 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article vehicle image by supplier-id and article-id",
+     *   description="Find article vehicle images",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Images",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(type="string")
      *     )
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="genericId",
+     *   description="Generic-Article-ID (GenArtNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
+     * )
+     * @SWG\Parameter(
+     *   name="vehicleId",
+     *   description="Vehicle-ID (KTyprNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function articleVehicleImageAction(
@@ -364,15 +392,29 @@ class ArticleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Article"},
-     *   description="Find article vehicle text by supplier-id and article-id",
+     *   description="Find article vehicle texts",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Texts",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=ArticleText::class))
      *     )
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="genericId",
+     *   description="Generic-Article-ID (GenArtNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
+     * )
+     * @SWG\Parameter(
+     *   name="vehicleId",
+     *   description="Vehicle-ID (KTyprNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function articleVehicleTextAction(

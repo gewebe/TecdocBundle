@@ -21,6 +21,7 @@ services:
         tags: ['controller.service_arguments']
         arguments:
             - '@Gweb\TecdocBundle\Api\Builder\SupplierBuilder'
+            - '@Gweb\TecdocBundle\Api\Builder\ArticleBuilder'
 
     Gweb\TecdocBundle\Api\Controller\VehicleController:
         tags: ['controller.service_arguments']

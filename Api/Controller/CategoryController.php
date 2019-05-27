@@ -25,14 +25,14 @@ class CategoryController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/category")
-     * @Rest\QueryParam(name="treeId", requirements="\d+", default="1", description="Tree-id to search for")
+     * @Rest\QueryParam(name="treeId", requirements="\d+", default="1", description="Tree-ID (TreeTypeNr)")
      *
      * @SWG\Get(
      *   tags={"Catalog"},
-     *   description="Find categories by tree-id",
+     *   description="Find first level tree categories",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Categories",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=Category::class, groups={"list"}))
@@ -54,12 +54,23 @@ class CategoryController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Catalog"},
-     *   description="Find category with childs by id",
+     *   description="Find a category with childs",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Category",
      *     @Model(type=Category::class)
+     *   ),
+     *   @SWG\Response(
+     *     response=404,
+     *     description="Category not found"
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="categoryId",
+     *   description="Category-ID (Node_Id)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function categoryAction(int $categoryId): View

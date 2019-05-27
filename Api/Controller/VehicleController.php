@@ -30,10 +30,10 @@ class VehicleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Vehicle"},
-     *   description="Find all manufacturers",
+     *   description="Find vehicle manufacturers",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicle Manufacturers",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=Manufacturer::class))
@@ -50,14 +50,14 @@ class VehicleController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/vehicle/model")
-     * @Rest\QueryParam(name="manufacturerId", requirements="\d+", default="1", description="Manufacturer-id to search for")
+     * @Rest\QueryParam(name="manufacturerId", requirements="\d+", default="1", description="Manufacturer-ID (HerNr)")
      *
      * @SWG\Get(
      *   tags={"Vehicle"},
-     *   description="Find vehicle models by manufacturer",
+     *   description="Find vehicle models",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicle Models",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=VehicleModel::class))
@@ -76,14 +76,14 @@ class VehicleController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/vehicle")
-     * @Rest\QueryParam(name="modelId", requirements="\d+", default="1", description="Model-id to search for")
+     * @Rest\QueryParam(name="modelId", requirements="\d+", default="1", description="Model-ID (KModNr)")
      *
      * @SWG\Get(
      *   tags={"Vehicle"},
-     *   description="Find vehicle by model",
+     *   description="Find vehicles by model",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicles",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=Vehicle::class, groups={"list"}))
@@ -105,15 +105,23 @@ class VehicleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Vehicle"},
-     *   description="Find vehicle by kba",
+     *   description="Find vehicles by kba",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicles",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=Vehicle::class))
      *     )
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="kba",
+     *   description="German KBA number",
+     *   type="string",
+     *   in="path",
+     *   default="0039911",
+     *   required=true
      * )
      */
     public function vehicleByKbaAction(string $kba): View
@@ -128,12 +136,23 @@ class VehicleController extends AbstractFOSRestController
      *
      * @SWG\Get(
      *   tags={"Vehicle"},
-     *   description="Find vehicle by id",
+     *   description="Find vehicle",
      *   @SWG\Response(
      *     response=200,
-     *     description="OK",
+     *     description="Vehicle",
      *     @Model(type=Vehicle::class)
+     *   ),
+     *   @SWG\Response(
+     *     response=404,
+     *     description="Vehicle not found"
      *   )
+     * )
+     * @SWG\Parameter(
+     *   name="vehicleId",
+     *   description="Vehicle-ID (KTypNr)",
+     *   type="integer",
+     *   in="path",
+     *   required=true
      * )
      */
     public function vehicleAction(int $vehicleId): View
