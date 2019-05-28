@@ -17,6 +17,7 @@
     "php": "^7.2",
     "doctrine/orm": "^2.6",
     "doctrine/doctrine-bundle": "^1.6",
+    "friendsofsymfony/rest-bundle": "^2.3",
     "jms/serializer-bundle": "^3.1",
     "nelmio/api-doc-bundle": "^3.4",
     "symfony/asset": "^4.2",
@@ -24,14 +25,13 @@
     "symfony/process": "^4.2",
     "symfony/proxy-manager-bridge": "^4.2",
     "symfony/validator": "^4.2",
-    "willdurand/hateoas-bundle": "^2.0"
+    "willdurand/hateoas-bundle": "^2.0",
+    "white-october/pagerfanta-bundle": "^1.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
-    "friendsofsymfony/rest-bundle": "^2.3",
     "sensio/framework-extra-bundle": "^5.2",
-    "symfony/phpunit-bridge": "*",
-    "symfony/twig-bundle": "*"
+    "symfony/phpunit-bridge": "*"
   },
   "suggest": {
     "p7zip": "Required to extract 7z compressed files",

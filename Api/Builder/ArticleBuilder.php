@@ -23,29 +23,42 @@ use Gweb\TecdocBundle\Entity\Tecdoc400ArticleLinkage;
 use Gweb\TecdocBundle\Entity\Tecdoc401ArticleLinkageText;
 use Gweb\TecdocBundle\Entity\Tecdoc410ArticleLinkageCriteria;
 use Gweb\TecdocBundle\Entity\Tecdoc432ArticleLinkageImage;
+use Gweb\TecdocBundle\Repository\ArticleRepository;
+use Hateoas\Configuration\Route;
+use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\Factory\PagerfantaFactory;
+use Hateoas\Representation\PaginatedRepresentation;
 
 class ArticleBuilder extends ApiBuilder
 {
     /**
      * @param int $supplierId
-     * @return Article[]
+     * @param int $page
+     * @param int $limit
+     * @return PaginatedRepresentation
      */
-    public function getArticles(int $supplierId): array
+    public function getArticleBySupplier(int $supplierId, int $page, int $limit): PaginatedRepresentation
     {
+        /**
+         * @var ArticleRepository $repository
+         */
         $repository = $this->getRepository(Tecdoc200Article::class);
-        $tecdocArticles = $repository->findByDatasupplier($supplierId);
+        $pagerfanta = $repository->findByDatasupplierPager($supplierId, $page, $limit);
 
         $articles = [];
-
-        foreach ($tecdocArticles as $tecdocArticle) {
-            $article = new Article();
-            $article->setSupplierId($tecdocArticle->getDlnr());
-            $article->setArticleId($tecdocArticle->getArtnr());
-
-            $articles[] = $article;
+        foreach ($pagerfanta->getCurrentPageResults() as $result) {
+            $articles[] = $this->buildArticle($result);
         }
 
-        return $articles;
+        $linkFactory = new PagerfantaFactory('page', 'limit');
+        return $linkFactory->createRepresentation(
+            $pagerfanta,
+            new Route(
+                'article_by_supplier',
+                ['supplierId' => $supplierId]
+            ),
+            new CollectionRepresentation($articles)
+        );
     }
 
     /**
@@ -56,15 +69,24 @@ class ArticleBuilder extends ApiBuilder
     public function getArticle(int $supplierId, string $articleId): ?Article
     {
         $repository = $this->getRepository(Tecdoc200Article::class);
-        $tecdocArticle = $repository->findByArticle($supplierId, $articleId);
+        $article = $repository->findByArticle($supplierId, $articleId);
 
-        if (!$tecdocArticle) {
+        if (!$article) {
             return null;
         }
 
+        return $this->buildArticle($article);
+    }
+
+    /**
+     * @param Tecdoc200Article $entity
+     * @return Article
+     */
+    public function buildArticle(Tecdoc200Article $entity): Article
+    {
         $article = new Article();
-        $article->setSupplierId($tecdocArticle->getDlnr());
-        $article->setArticleId($tecdocArticle->getArtnr());
+        $article->setSupplierId($entity->getDlnr());
+        $article->setArticleId($entity->getArtnr());
 
         return $article;
     }

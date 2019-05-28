@@ -3,6 +3,8 @@
 namespace Gweb\TecdocBundle\Repository;
 
 use Gweb\TecdocBundle\Entity\Tecdoc200Article;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Pagerfanta\Pagerfanta;
 
 /**
  * Entity repository for Article
@@ -14,23 +16,28 @@ class ArticleRepository extends TranslateEntityRepository
     /**
      * Find articles by datasupplier
      * @param int $dlnr
-     * @return Tecdoc200Article[]
+     * @param int $page
+     * @param $limit
+     * @return Pagerfanta
      */
-    public function findByDatasupplier(int $dlnr): array
+    public function findByDatasupplierPager(int $dlnr, int $page, $limit): Pagerfanta
     {
-        $dql = 'SELECT article,
-                       description
+        $dql = 'SELECT article
                 FROM Gweb\TecdocBundle\Entity\Tecdoc200Article article
-                LEFT JOIN article.description description WITH description.sprachnr = :sprachnr
                 WHERE article.dlnr = :dlnr
         ';
 
-        $query = $this->getEntityManager()->createQuery($dql)->setMaxResults(1000);
+        $query = $this->getEntityManager()->createQuery($dql);
 
         $query->setParameter('dlnr', $dlnr);
-        $query->setParameter('sprachnr', $this->languageId);
 
-        return $query->getResult();
+        $pagerAdapter = new DoctrineORMAdapter($query, false);
+
+        $pagerfanta = new Pagerfanta($pagerAdapter);
+        $pagerfanta->setCurrentPage($page);
+        $pagerfanta->setMaxPerPage($limit);
+
+        return $pagerfanta;
     }
 
     /**
