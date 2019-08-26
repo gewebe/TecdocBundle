@@ -8,7 +8,7 @@ This bundle integrates the TecDoc vehicle and spare parts database into Symfony.
  * Import fixed width files to database
  * Entity model for fixed width files and orm*
  * Automatic translations of descriptions, textmodules and images
- * Little REST-API for demonstration
+ * REST-API for demonstration
  
  \* For copyright reasons it's not possible to publish the full tecdoc schema. Please contact me if you need more entities or help with integration.
 
@@ -28,7 +28,7 @@ return [
 
 ## Configuration
 
-Add a new configuration file to: config/packages/gweb_tecdoc.yaml
+Add new bundle configuration file to: config/packages/gweb_tecdoc.yaml
 ```yaml
 gweb_tecdoc:
     dir:
@@ -43,7 +43,10 @@ gweb_tecdoc:
     translator:
         autoload: false
         default_locale: en
+```
 
+Add config for database connection and entity manager
+```yaml
 doctrine:
     dbal:
         connections:
@@ -78,18 +81,55 @@ bin/console tecdoc:import --threads=2
 ```
 
 ## Usage
-Simple example usage, you can find more in Api directory
+Simple Controller example
 
 ```php
-class SupplierController
+namespace App\Controller;
+
+use Gweb\TecdocBundle\Entity\Tecdoc001DataSupplier;
+use Gweb\TecdocBundle\Service\EntityManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
+class DemoController extends AbstractController
 {
-    public function indexAction() 
+    private $entityManager;
+
+    public function __construct(
+        EntityManager $entityManager
+    ) {
+        $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @Route("/demo")
+     */
+    public function indexAction()
     {
-        $em = $this->get('gweb_tecdoc.entity_manager');
-    
-        $suppliers = $em->getRepository(Tecdoc001DataSupplier::class)->findAll();
-        
-        return $this->json($suppliers);
+        $suppliers = $this->entityManager->getRepository(Tecdoc001DataSupplier::class)->findAll();
+
+        $response = [];
+        foreach ($suppliers as $supplier) {
+            $response[] = $supplier->getMarke();
+        }
+
+        return $this->json($response);
     }
 }
 ```
+
+## Demo API usage
+
+Add configuration for rest bundle
+````yaml
+fos_rest:
+    param_fetcher_listener: true
+    view:
+        view_response_listener:  true
+    format_listener:
+        rules:
+            - { path: ^/tecdoc, prefer_extension: true, fallback_format: json, priorities: [ json ] }
+            - { path: ^/, stop: true }
+````
+Browse API documentation at
+[swagger.io](http://editor.swagger.io/?url=https://raw.githubusercontent.com/gewebe/TecdocBundle/master/Api/swagger.json)
